@@ -55,6 +55,6 @@ NTHU 11120ISA557300 Brain Computer Interfaces: Fundamentals and Application Fina
     $ conda install -c conda-forge matplotlib
     $ conda install -c conda-forge scikit-learn
     ```
-- Project Description
+- Project Description: click to see the README of these parts
     - [Preprocessing](/Preprocessing/README.md)
     - [Deep Learning](/DeepLearning/README.md)
