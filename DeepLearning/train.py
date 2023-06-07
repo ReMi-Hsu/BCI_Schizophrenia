@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from datetime import datetime
 import matplotlib.pyplot as plt
 import sklearn.metrics
@@ -8,7 +9,7 @@ from tensorflow import keras
 from tensorflow.keras.callbacks import ModelCheckpoint, History, CSVLogger
 
 from loaddata import load_data
-from model import oneD_CNN
+from model import oneD_CNN, LSTM
 
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
@@ -16,7 +17,8 @@ sess = tf.compat.v1.Session(config=config)
 
 ## dataset variable ##
 dataset_root = fr"/local/SSD/bci_dataset_npy/"
-npy_types = ["raw", "filter_asr"]
+npy_types = ["raw", "asr", "filter", "filter_asr"]
+npy_type = npy_types[3]
 ## ##
 
 ## model variable ##
@@ -26,17 +28,19 @@ LEARNING_RATE = 0.001
 TRAIN = True
 TEST = True
 load_weights = ''
+model_types = ["oneD_CNN", "LSTM"]
+model_type = model_types[0]
 ## ##
 
 ## result path ##
-model_name = "1DCNN_v1"
+model_name = "oneD_CNN_v2"
 result_root = "./result"
-
+## ##
 
 def train(model, result_record_path, x_train, x_val, y_train, y_val):
     print("="*80)
     print("Model Training")
-    optimizer = keras.optimizers.legacy.Adam( learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, decay=1e-7, amsgrad=False)
+    optimizer = keras.optimizers.Adam( learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, decay=1e-7, amsgrad=False)
     loss = keras.losses.BinaryCrossentropy(from_logits=True)
 
     callbacks = [
@@ -65,7 +69,7 @@ def plot_history(history, result_record_path):
     plt.title('model accuracy')
     plt.ylabel('acc')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'val'], loc='upper left')
     plt.savefig(result_record_path+'_acc.jpg')
     plt.close(fig_acc)
 
@@ -75,7 +79,7 @@ def plot_history(history, result_record_path):
     plt.title('model accuracy')
     plt.ylabel('acc')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper right')
+    plt.legend(['train', 'val'], loc='upper right')
     plt.savefig(result_record_path+'_loss.jpg')
     plt.close(fig_loss)
     print("Plot Training History")
@@ -84,24 +88,28 @@ def plot_history(history, result_record_path):
 def test(model, model_name, date, result_record_path, x_test, y_test):
     print("="*80)
     print("Model Testing")
-    accuracy, loss = model.evaluate(x_test, y_test)
+    optimizer = keras.optimizers.Adam( learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, decay=1e-7, amsgrad=False)
+    loss = keras.losses.BinaryCrossentropy(from_logits=True)
+    model.compile(loss=loss, optimizer=optimizer, metrics=['acc'])
+
+    loss, accuracy = model.evaluate(x_test, y_test)
     print("acc: {acc}, loss: {loss}".format(acc=accuracy, loss=loss))
 
     y_pred = model.predict(x_test)
     confusion_mat = sklearn.metrics.confusion_matrix(y_test, np.round(y_pred))
 
-    print("True Positive for SZ: {TP}".format(TP=confusion_matr[0, 0]))
-    print("False Positive for SZ: {FP}".format(FP=confusion_matr[0, 1]))
-    print("False Negative for HC: {FN}".format(FN=confusion_matr[1, 0]))
-    print("True Negative for HC: {TN}".format(TN=confusion_matr[1, 1]))
+    print("True Positive for HC: {TP}".format(TP=confusion_mat[0, 0]))
+    print("False Positive for HC: {FP}".format(FP=confusion_mat[0, 1]))
+    print("False Negative for SZ: {FN}".format(FN=confusion_mat[1, 0]))
+    print("True Negative for SZ: {TN}".format(TN=confusion_mat[1, 1]))
 
-    with open(ic_label_txt_save_path, 'w') as f:
+    with open(result_record_path+"_test_result.txt", 'w') as f:
         f.write("model_name: {model_name}, training_date={training_date}\n".format(model_name=model_name, training_date=date))
         f.write("acc: {acc}, loss: {loss}\n".format(acc=accuracy, loss=loss))
-        f.write("True Positive for SZ: {TP}\n".format(TP=confusion_matr[0, 0]))
-        f.write("False Positive for SZ: {FP}\n".format(FP=confusion_matr[0, 1]))
-        f.write("False Negative for HC: {FN}\n".format(FN=confusion_matr[1, 0]))
-        f.write("True Negative for HC: {TN}".format(TN=confusion_matr[1, 1]))
+        f.write("True Positive for HC: {TP}\n".format(TP=confusion_mat[0, 0]))
+        f.write("False Positive for HC: {FP}\n".format(FP=confusion_mat[0, 1]))
+        f.write("False Negative for SZ: {FN}\n".format(FN=confusion_mat[1, 0]))
+        f.write("True Negative for SZ: {TN}".format(TN=confusion_mat[1, 1]))
     print("Model Testing Finish")
     print("="*80)
 
@@ -113,7 +121,15 @@ if __name__ == "__main__":
     x_train, x_val, x_test, y_train, y_val, y_test = load_data(dataset_root=dataset_root, data_type=npy_types[1])
     
     # model
-    model = oneD_CNN(input_shape=x_train.shape)
+    if model_type == "oneD_CNN":
+        model = oneD_CNN(input_shape=x_train.shape)
+    elif model_type == "LSTM":
+        model = LSTM(input_shape=x_train.shape)
+    else:
+        model = oneD_CNN(input_shape=x_train.shape)
+
+    if load_weights != '':
+        model.load_weights(filepath=load_weights,by_name=True, skip_mismatch=True)
 
     result_record_root = os.path.join(result_root, model_name)
     os.makedirs(result_record_root, exist_ok=True)

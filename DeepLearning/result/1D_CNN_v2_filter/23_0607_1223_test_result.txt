@@ -1,0 +1,6 @@
+model_name: oneD_CNN_v2_filter, training_date=23_0607_1223
+acc: 0.6722221970558167, loss: 0.6433546543121338
+True Positive for HC: 113
+False Positive for HC: 0
+False Negative for SZ: 59
+True Negative for SZ: 8

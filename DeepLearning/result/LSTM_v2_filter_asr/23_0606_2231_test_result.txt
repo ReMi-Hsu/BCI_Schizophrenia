@@ -1,0 +1,6 @@
+model_name: LSTM_v2, training_date=23_0606_2231
+acc: 0.7111111283302307, loss: 0.6026011109352112
+True Positive for HC: 86
+False Positive for HC: 27
+False Negative for SZ: 25
+True Negative for SZ: 42

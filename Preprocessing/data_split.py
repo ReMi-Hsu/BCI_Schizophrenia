@@ -4,15 +4,14 @@ the total number of data is 3571 (training: 3391, testing: 180)
 each shape of data is (time_step=9216, num_channels=65)
 """
 import os
-import sys
-import mne
-import shutil
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 dir_root = fr'/local/SSD/bci_preprocess/'
 save_root = fr'/local/SSD/bci_dataset_npy/'
+dataset_types = ['raw', 'asr', 'filter', 'filter_asr']
+dataset_type = dataset_types[0]
 data = list()
 
 df = pd.read_csv(fr'/local/SSD/archive_schizophrenia/demographic.csv')
@@ -32,7 +31,7 @@ for person_dir in person_dirs:
     person_idx = person_dir.split('.')[0]
     print('name_idx = ', person_idx)
     
-    fname = os.path.join(dir_root, person_dir, "raw_{name}.npy".format(name=person_dir))
+    fname = os.path.join(dir_root, person_dir, (dataset_type+"_{name}.npy").format(name=person_dir))
     npArr_EEGdata = np.load(fname)
     print("the shape of npArr_EEGdata: ", npArr_EEGdata.shape) #(num_channels=65, num_times=9216*num_trail)
     
@@ -99,7 +98,7 @@ print('X_test shape: ', X_test.shape)
 print('y_train shape: ', y_train.shape)
 print('y_test shape: ', y_test.shape)
 
-np.save(os.path.join(save_root, 'raw_X_train.npy'), X_train)
-np.save(os.path.join(save_root, 'raw_X_test.npy'), X_test)
-np.save(os.path.join(save_root, 'raw_y_train.npy'), y_train)
-np.save(os.path.join(save_root, 'raw_y_test.npy'), y_test)
+np.save(os.path.join(save_root, (dataset_type+'_X_train.npy')), X_train)
+np.save(os.path.join(save_root, (dataset_type+'_X_test.npy')), X_test)
+np.save(os.path.join(save_root, (dataset_type+'_y_train.npy')), y_train)
+np.save(os.path.join(save_root, (dataset_type+'_y_test.npy')), y_test)  

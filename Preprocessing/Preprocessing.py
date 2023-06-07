@@ -18,8 +18,6 @@ col_names = pd.read_csv(os.path.join(DATASET_ROOT, "columnLabels.csv"))
 ch_names = list(col_names.columns[4:])
 col_names = list(col_names)
 
-
-
 def generate_RawArrayData(npdata, info):
     npEGG = np.swapaxes(npdata, 0, 1)
     EEGData = mne.io.RawArray(npEGG, info)
@@ -27,11 +25,6 @@ def generate_RawArrayData(npdata, info):
     EEGData = EEGData.set_eeg_reference("average")
     return EEGData
 
-
-
-
-# 0.1 Hz high-pass filter
-# reference: https://mne.tools/0.15/auto_tutorials/plot_artifacts_correction_filtering.html
 def plot_FFT(origin_rawArrayData, filtered_rawArrayData):
     # FFT
     fft_ori = np.abs(mne.time_frequency.stft(origin_rawArrayData, wsize=240))
@@ -84,7 +77,7 @@ def ASR_denoise(rawArray_eegData):
 # reference: https://blog.csdn.net/qq_44930039/article/details/127734713
 def compute_ICLABEL(rawArray_eegData):
     print('-'*80)
-    print("compute_ICALABEL")
+    print("compute_ICLABEL")
 
     ica = mne.preprocessing.ICA(n_components=.99, random_state=38)
     ica.fit(rawArray_eegData)
@@ -92,7 +85,6 @@ def compute_ICLABEL(rawArray_eegData):
     ica_labels = mne_icalabel.label_components(rawArray_eegData, ica, method="iclabel")
     print("Done")
     return ica, ica_labels
-
 
 def reconstruct_EEGData(rawArray_eegData, ica, ic_labels):
     print('-'*80)
@@ -227,8 +219,6 @@ if __name__ == "__main__":
                 f.write("highpass-filter: {filter_iclabel}".format(filter_iclabel=filter_ic_labels))
                 f.write("asr (w/o high_pass_filter): {asr_iclabel}".format(asr_iclabel=asr_ic_labels))
                 f.write("asr (with high_pass_filter): {asr_iclabel}".format(asr_iclabel=filter_asr_ic_labels))
-                
-            
 
     end_time = time.time()
 

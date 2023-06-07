@@ -81,4 +81,3 @@ def info(x_train, x_val, x_test, y_train, y_val, y_test):
 
 if __name__ == "__main__":
     x_train, x_val, x_test, y_train, y_val, y_test = load_data()
-    
