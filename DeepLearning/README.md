@@ -218,3 +218,10 @@
         print("Model Testing Finish")
         print("="*80)
     ```
+### Results
+- Accuracy and Loss
+
+![](ACCandLoss.png)
+- Results
+
+![](result.png)
