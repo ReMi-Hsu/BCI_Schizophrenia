@@ -66,3 +66,5 @@ NTHU 11120ISA557300 Brain Computer Interfaces: Fundamentals and Application Fina
     - [Preprocessing](/Preprocessing/README.md)
     - [MLWithERPdata](/MLWithERPdata/README.md)
     - [Deep Learning](/DeepLearning/README.md)
+    
+### More detailed content of our entire plan can be viewed in ppt and mp4
