@@ -224,4 +224,4 @@
 ![](ACCandLoss.png)
 - Results
 
-![](result.png)
+![](results.png)
