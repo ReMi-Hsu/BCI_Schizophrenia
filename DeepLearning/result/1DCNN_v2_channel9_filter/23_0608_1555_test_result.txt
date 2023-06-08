@@ -1,0 +1,6 @@
+model_name: 1DCNN_v2_channel9_filter, training_date=23_0608_1555
+acc: 0.8666666746139526, loss: 0.3143884837627411
+True Positive for HC: 93
+False Positive for HC: 20
+False Negative for SZ: 4
+True Negative for SZ: 63
