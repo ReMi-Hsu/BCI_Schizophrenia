@@ -2,7 +2,7 @@
 
 'randomforset_forERPdata.ipynb' is to preprocess ERP Data and using some ML method (SVM, randomForest) to do classification. 
 
-![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/N1supp.jpg)
+![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/fig/N1supp.jpg)
 
 It shows that HC and SZ exists a gap of N1 suppression, so maybe we can easily use the feature of N1 suppression to classify.
 - the shape of each data is (2, )
@@ -20,8 +20,13 @@ The number of training data is 64, which is less. Thus we use machine learning m
 
 - Result 
 
-![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/result.jpg)
+![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/fig/result.jpg)
 
-- Analysis why the performance is not good
-- 
+Analysis why the performance is not good
+- Take channel ‘FCz‘ for example
+    - there exists a SZ subject whose data value is represented by two red thick line
+    - if N1 suppression values of the subject is smaller than standard
+    - the SZ subject is easily misclassify.
+    
+![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/fig/analysis.jpg)
 
