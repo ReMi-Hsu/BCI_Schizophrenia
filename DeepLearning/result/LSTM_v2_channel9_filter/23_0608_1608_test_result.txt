@@ -1,0 +1,6 @@
+model_name: LSTM_v2_channel9_filter, training_date=23_0608_1608
+acc: 0.6277777552604675, loss: 0.6560778021812439
+True Positive for HC: 95
+False Positive for HC: 18
+False Negative for SZ: 49
+True Negative for SZ: 18

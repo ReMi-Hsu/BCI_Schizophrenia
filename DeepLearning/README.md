@@ -6,10 +6,13 @@
     - normalize data by mean and standard
     - the output will be: x_train, x_val, x_test, y_train, y_val, y_test 
 - Model: use normal model structure for processing time series dataset
-    - Maxpooling
+    - Since the size of dataset is too large, we use maxpooling to reduce computation and over-fitting. Additionally, we double the feature channels and after maxpooling to extract more fine-grained features
     - Model Structure
+    ![](https://hackmd.io/_uploads/rkdss3Jw2.png)
         - 1D CNN
+        ![](https://hackmd.io/_uploads/SJlKj3kw2.png)
         - LSTM
+        ![](https://hackmd.io/_uploads/Byzss2kDh.png)
 - Training & Testing
     - load data
     - compile model
@@ -198,19 +201,19 @@
         # compute True Positive, False Positive, False Negative, True Negative
         confusion_mat = sklearn.metrics.confusion_matrix(y_test, np.round(y_pred))
 
-        print("True Positive for HC: {TP}".format(TP=confusion_mat[0, 0]))
-        print("False Positive for HC: {FP}".format(FP=confusion_mat[0, 1]))
-        print("False Negative for SZ: {FN}".format(FN=confusion_mat[1, 0]))
-        print("True Negative for SZ: {TN}".format(TN=confusion_mat[1, 1]))
+        print("True Positive for SZ: {TP}".format(TP=confusion_mat[0, 0]))
+        print("False Positive for SZ: {FP}".format(FP=confusion_mat[0, 1]))
+        print("False Negative for HC: {FN}".format(FN=confusion_mat[1, 0]))
+        print("True Negative for HC: {TN}".format(TN=confusion_mat[1, 1]))
 
         # save results in txt file
         with open(result_record_path+"_test_result.txt", 'w') as f:
             f.write("model_name: {model_name}, training_date={training_date}\n".format(model_name=model_name, training_date=date))
             f.write("acc: {acc}, loss: {loss}\n".format(acc=accuracy, loss=loss))
-            f.write("True Positive for HC: {TP}\n".format(TP=confusion_mat[0, 0]))
-            f.write("False Positive for HC: {FP}\n".format(FP=confusion_mat[0, 1]))
-            f.write("False Negative for SZ: {FN}\n".format(FN=confusion_mat[1, 0]))
-            f.write("True Negative for SZ: {TN}".format(TN=confusion_mat[1, 1]))
+            f.write("True Positive for SZ: {TP}\n".format(TP=confusion_mat[0, 0]))
+            f.write("False Positive for SZ: {FP}\n".format(FP=confusion_mat[0, 1]))
+            f.write("False Negative for HC: {FN}\n".format(FN=confusion_mat[1, 0]))
+            f.write("True Negative for HC: {TN}".format(TN=confusion_mat[1, 1]))
         
         print("Model Testing Finish")
         print("="*80)
