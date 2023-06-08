@@ -18,6 +18,7 @@ The number of training data is 64, which is less. Thus we use machine learning m
     - Random forests: good way to classify small training samples.
     - SVM
 
-- Result
+- Result 
+
 ![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/result.jpg)
 
