@@ -22,3 +22,6 @@ The number of training data is 64, which is less. Thus we use machine learning m
 
 ![](https://github.com/ReMi-Hsu/BCI_Schizophrenia/blob/main/MLWithERPdata/result.jpg)
 
+- Analysis why the performance is not good
+- 
+
