@@ -12,7 +12,7 @@ NTHU 11120ISA557300 Brain Computer Interfaces: Fundamentals and Application Fina
     - [Project Details](https://reporter.nih.gov/project-details/9187052)
     - [Kaggle Competition](https://www.kaggle.com/datasets/broach/button-tone-sz)
 - Dataset Description
-    - The datasets has 40 people (25 is HC, 15 is SZ)
+    - The raw datasets (without any preprocessing) has 40 people (25 is HC, 15 is SZ)
     - In each person's files(.csv)  
         - there are 74 colums (channels)
             - **basic information:** (the first 4 columns, will be eliminated)
