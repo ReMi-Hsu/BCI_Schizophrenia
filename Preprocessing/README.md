@@ -153,3 +153,7 @@ the dataset will remains **EEG channels** (65 channels)
     X_train_HC, X_test_HC, y_train_HC, y_test_HC = train_test_split(data_HC, label_HC, test_size=0.05, random_state=21)
     X_train_SZ, X_test_SZ, y_train_SZ, y_test_SZ = train_test_split(data_SZ, label_SZ, test_size=0.05, random_state=7)
     ```
+### Results
+- ICLabel
+
+![](ICLabel.png)
